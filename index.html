@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Nadoush 🤎</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root {
+  --brown-dark: #3e2723;
+  --brown-main: #5d4037;
+  --brown-light: #8d6e63;
+}
+
+/* 🟤 الباك جراوند */
+body {
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+  background: radial-gradient(circle at 20% 30%, var(--brown-light), var(--brown-main), var(--brown-dark));
+  overflow: hidden;
+}
+
+/* 🌌 النجوم */
+.stars {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+  from {opacity: 0.2;}
+  to {opacity: 1;}
+}
+
+/* ✨ الضوء */
+.light {
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 60%);
+  animation: moveLight 16s ease-in-out infinite;
+}
+
+@keyframes moveLight {
+  0%,100% {transform: translate(-20%, -20%);}
+  50% {transform: translate(20%, 20%);}
+}
+
+/* 🧊 الكارد الأبيض */
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  padding: 45px 35px;
+  border-radius: 25px;
+  text-align: center;
+  width: 90%;
+  max-width: 460px;
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.4),
+    0 10px 25px rgba(0,0,0,0.2);
+
+  opacity: 0;
+  animation: showCard 1.5s ease 1s forwards, floatCard 6s ease-in-out infinite;
+}
+
+@keyframes showCard {
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes floatCard {
+  0%,100% {transform: translate(-50%, -50%) translateY(0);}
+  50% {transform: translate(-50%, -52%) translateY(-6px);}
+}
+
+/* ✍️ النص كله بني */
+h1, .subtitle, #text, .song-text {
+  color: var(--brown-dark);
+}
+
+h1 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.subtitle {
+  font-size: 14px;
+  opacity: 0.7;
+  margin-bottom: 20px;
+}
+
+/* الرسالة */
+#text {
+  font-size: 16px;
+  line-height: 1.8;
+  min-height: 110px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeText 1.5s ease 2s forwards;
+}
+
+@keyframes fadeText {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* الجملة */
+.song-text {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+/* الزر */
+.btn {
+  margin-top: 15px;
+  background: linear-gradient(135deg, #6d4c41, #3e2723);
+  border: none;
+  padding: 12px 26px;
+  border-radius: 30px;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.3s;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="light"></div>
+
+<div class="card">
+  <h1>To Nadoush 🤎</h1>
+  <div class="subtitle">ماسيدج صغيرة بس من قلبي</div>
+
+  <div id="text"></div>
+
+  <div class="song-text">الأغنية دي ليكي</div>
+
+  <button class="btn" onclick="playSong()">
+    شغّلي الأغنية
+  </button>
+
+  <audio id="song" src="song.mp3"></audio>
+</div>
+
+<script>
+
+/* النجوم */
+for (let i = 0; i < 140; i++) {
+  let star = document.createElement("div");
+  star.className = "star";
+  let size = Math.random() * 2 + 1;
+  star.style.width = size + "px";
+  star.style.height = size + "px";
+  star.style.top = Math.random() * 100 + "vh";
+  star.style.left = Math.random() * 100 + "vw";
+  document.getElementById("stars").appendChild(star);
+}
+
+/* الكتابة */
+const message = `يا ندوش...
+انتي مش بس صديقة مفضلة 🤎  
+انتي اختي و صاحبتي وحبيت اعملك الهديه دي  
+عشان احفزك تذاكري وتنجحي  
+وعلى قد ما تتعبي على قد ما هتلاقي  
+
+بحبك يا احسن صديقة في الدنيا 🤎`;
+
+let i = 0;
+function typeWriter() {
+  if (i < message.length) {
+    document.getElementById("text").innerHTML += message.charAt(i);
+    i++;
+    setTimeout(typeWriter, 40);
+  }
+}
+setTimeout(typeWriter, 2000);
+
+/* الصوت */
+function playSong() {
+  let song = document.getElementById("song");
+  song.volume = 0;
+  song.play();
+
+  let fade = setInterval(() => {
+    if (song.volume < 1) {
+      song.volume += 0.05;
+    } else {
+      clearInterval(fade);
+    }
+  }, 200);
+}
+
+</script>
+
+</body>
+</html>
